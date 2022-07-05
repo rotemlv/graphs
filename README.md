@@ -10,6 +10,7 @@ Basic graph algorithms:
 - Strongly-connected-components (DFS based)
 
 Weighted graph algorithms:
+
   Shortest path:
   - Dijkstra
   - Bellman-Ford
