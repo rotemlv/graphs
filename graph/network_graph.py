@@ -123,8 +123,8 @@ class FlowNetwork(BaseGraph):
         # just grab all edges with non-zero Cf
         return BaseGraph(self.get_vertices(), e1.union(e2), bi_directional=False)
 
-    def ford_fulkerson_of_a_bitch(self):
-        """edmond-crap"""
+    def ford_fulkerson(self):
+        """BFS version"""
         residual_network = self._build_residual_network()
         # can just modify the call to return edges
         path, _ = residual_network.shortest_path_from_to(self.source, self.target)
@@ -176,7 +176,7 @@ class FlowNetwork(BaseGraph):
         # * the best way I can find to do this (as of now) is to
         # return the max-flow using F-F on a temp network
         tmp = deepcopy(self)
-        tmp.ford_fulkerson_of_a_bitch()
+        tmp.ford_fulkerson()
         return tmp.get_vertex_flow(self.source)
 
 
@@ -184,13 +184,13 @@ if __name__ == '__main__':
     capacity = {(1, 2): 5, (2, 3): 2, (1, 3): 4, (2, 4): 5, (3, 4): 2}
     nf = FlowNetwork([1, 2, 3, 4], [(1, 2), (2, 3), (1, 3), (2, 4), (3, 4)], 1, 4, capacity)
 
-    nf.ford_fulkerson_of_a_bitch()
+    nf.ford_fulkerson()
     print(nf.get_current_flow())
 
     nf.set_capacity_with_prop(1, 2, 3)
     print(nf.get_current_flow())
 
-    nf.ford_fulkerson_of_a_bitch()
+    nf.ford_fulkerson()
     print(nf.get_current_flow())
 
     for e in nf.get_edges():
