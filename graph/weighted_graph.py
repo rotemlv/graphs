@@ -18,9 +18,9 @@ class WeightedGraph(BaseGraph):
                 self.weights_dict[v, u] = self.weights_dict[u, v]
 
     def add_edge(self, u: Hashable, v: Hashable, w=None) -> None:
-        """Insert an edge to a graphs. If one or both of the vertices do not exist,
+        """Insert an edge to a graph. If one or both of the vertices do not exist,
         add them. Supports weighted edges. Edge form (directed or undirected) is
-        according to the initialization of the calling graphs."""
+        according to the initialization of the calling graph."""
         self.add_unweighted_edge(u, v)
         self.weights_dict[u, v] = w
         if self._bi_directional:
@@ -36,7 +36,7 @@ class WeightedGraph(BaseGraph):
     def get_neighbors_weighted(self, u) -> iter:
         """Returns a generator for a given vertex' neighbor vertices
         alongside the weight of the edge to it.
-        If input vertex isn't in the graphs, adds it."""
+        If input vertex isn't in the graph, adds it."""
         for v in self.get_neighbors(u):
             yield v, self.weights_dict[u, v]
 
@@ -54,9 +54,9 @@ class WeightedGraph(BaseGraph):
 
     def di_acyclic_shortest_path(self, source):
         """Linear time algorithm for single-source shortest paths in
-         a directed acyclic graphs."""
+         a directed acyclic graph."""
         # necessary pre-requisites for using this here algo
-        assert self._neighbors.get(source) is not None  # check source is in graphs
+        assert self._neighbors.get(source) is not None  # check source is in graph
         assert not self._bi_directional  # if diGraph
         assert self.is_dag
 
@@ -179,7 +179,7 @@ class WeightedGraph(BaseGraph):
             heap.put((weight, (source, target)))
 
     def kruskal(self) -> set:
-        """Returns a list of edges for the MST of a graphs G per the Kruskal MST algorithm."""
+        """Returns a list of edges for the MST of a graph G per the Kruskal MST algorithm."""
         from .disjoint_set import make_set, find, union
         assert self._bi_directional
         set_edges = set()
@@ -199,7 +199,7 @@ class WeightedGraph(BaseGraph):
         return set_edges
 
     def prim(self) -> set:
-        """Returns a list of edges for the MST of a graphs G using the Slim-Jim MST algorithm."""
+        """Returns a list of edges for the MST of a graph G using the Slim-Jim MST algorithm."""
         n = self.n
         # choose a tzomet kolshei
         x = list(self._neighbors.keys())[0]  # "1st" vertex

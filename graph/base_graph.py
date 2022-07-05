@@ -18,7 +18,7 @@ class BaseGraph:
 
     def __init__(self, vertices: Iterable, edges: Iterable,
                  bi_directional: bool = False):
-        """By default, creates a directed, un-weighted graphs, given two iterable objects
+        """By default, creates a directed, un-weighted graph, given two iterable objects
         for vertices and edges."""
         self._neighbors = {}
         self._edges = set()
@@ -37,9 +37,8 @@ class BaseGraph:
 
     def add_unweighted_edge(self, u: Hashable, v: Hashable) -> None:
         #  this is used because of the conflict between parent and subclasses
-        """Insert an un-weighted edge to a graphs. If one or both of the vertices do not exist,
-        add them. Supports weighted edges. Edge form (directed or undirected) is
-        according to the initialization of the calling graphs."""
+        """Insert an un-weighted edge to a graph. If one or both of the vertices do not exist,
+        add them."""
         self.top_sort_is_relevant = False
         self.add_vertex(u)
         self.add_vertex(v)
@@ -51,14 +50,14 @@ class BaseGraph:
             # yes it is a bit of a mess
 
     def add_edge(self, u: Hashable, v: Hashable) -> None:
-        """Insert an edge to a graphs. If one or both of the vertices do not exist,
+        """Insert an edge to a graph. If one or both of the vertices do not exist,
         add them. Supports weighted edges. Edge form (directed or undirected) is
-        according to the initialization of the calling graphs."""
+        according to the initialization of the calling graph."""
         self.add_unweighted_edge(u, v)
 
     def get_neighbors(self, u) -> iter:
         """Returns a generator for a given vertex' neighbor vertices.
-        If input vertex isn't in the graphs, adds it."""
+        If input vertex isn't in the graph, adds it."""
         yield from iter(self._neighbors.setdefault(u, set()))
 
     def get_neighbors_without_add(self, u) -> iter:
@@ -86,12 +85,12 @@ class BaseGraph:
 
     @property
     def n(self) -> int:
-        """Number of vertices in a graphs"""
+        """Number of vertices in a graph"""
         return len(self._neighbors)
 
     @property
     def m(self) -> int:
-        """Number of edges in a graphs"""
+        """Number of edges in a graph"""
         return len(self._edges)
 
     def get_vertices(self) -> iter:
@@ -103,14 +102,14 @@ class BaseGraph:
     def __iter__(self) -> iter:
         """Iterate over each node -> yields node and its neighbors (as a set
         associated with the node in a tuple).
-        If the graphs is weighted, each neighbor (key)
+        If the graph is weighted, each neighbor (key)
         is associated with a weight (value) over the edge towards it."""
         yield from ((v, k) for v, k in self._neighbors.items())
 
     def __str__(self) -> str:
-        """Returns a string representation of a graphs object. For each vertex, append a
+        """Returns a string representation of a graph object. For each vertex, append a
         tuple that holds the vertex data, the neighbors for that vertex.
-        If graphs is weighted, neighbors are shown in a dictionary - {neighbor: weight-to}."""
+        If graph is weighted, neighbors are shown in a dictionary - {neighbor: weight-to}."""
         s = "Graph: " if self._bi_directional else "DiGraph: "
         vertices_count = self.n
         for i, n in enumerate(self):
@@ -151,7 +150,7 @@ class BaseGraph:
 
     @property
     def is_dag(self) -> bool:
-        """Check if a given graphs is directed-acyclic. *This is a linear time operation*"""
+        """Check if a given graph is directed-acyclic. *This is a linear time operation*"""
         from graph.base_graph_algorithms import topological_sorting
         if not self.top_sort_is_relevant:
             self.top_sort = topological_sorting(self)
