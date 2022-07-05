@@ -1,5 +1,5 @@
 # graphs
-Implementation of graphs and flow networks:
+Implementation of graphs and flow networks (a somewhat OO approach):
 
 Basic graph algorithms:
 - DFS
@@ -25,7 +25,8 @@ Flow networks:
   
 *Kruskal is built on top of the highly-efficient disjoint-set data-structure, implemented in the disjoint_set.py file.
 
-the main.py file holds some examples for how to use the BaseGraph and WeightedGraph classes.
+The main.py file holds some examples for how to use the BaseGraph and WeightedGraph classes.
+The file network_graph.py holds some examples for using a flow network with the FlowNetwork class.
 
 
 External modules required for plotting: networkx, matplotlib
