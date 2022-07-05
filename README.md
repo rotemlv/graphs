@@ -17,12 +17,13 @@ Weighted graph algorithms:
   - SSSP-DAG (Top-sort based linear time algorithm)
   
   MST:
-  - Kruskal 
+  - Kruskal (*)
   - Prim
   
 Flow networks:
 - Ford-Fulkerson (BFS and DFS versions)
   
+*Kruskal is built on top of the highly-efficient disjoint-set data-structure, implemented in the disjoint_set.py file.
 
 the main.py file holds some examples for how to use the BaseGraph and WeightedGraph classes.
 
