@@ -10,13 +10,13 @@ def make_set_ready_for_size(x, parent: dict, size: dict, rank: dict):
     # no forest check, don't call this with duplicate elements
     parent[x] = x  # as if x is a one-element tree
     size[x] = 1
-    rank[x] = 0  # tree is not empty so fucking height of a fucking single node is 0
+    rank[x] = 0
 
 
 def make_set(x, parent: dict, rank: dict):
     # No size AND no forest check (tight fit for current version)
     parent[x] = x  # as if x is a one-element tree
-    rank[x] = 0  # tree is not empty so fucking height of a fucking single node is 0
+    rank[x] = 0  # tree is not empty - height of a single node is 0
 
 
 def find(x, parent: dict):
