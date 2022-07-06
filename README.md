@@ -13,7 +13,9 @@ Weighted graph algorithms:
 
   Shortest path:
   - Dijkstra
-  - Bellman-Ford
+  - Bellman-Ford:
+    - Standard version for directed graphs with negative weights
+    - Special version for un-directed graphs (treats negative edges as directed when encountered).
   - SSSP-DAG (Top-sort based linear time algorithm)
   
   MST:
