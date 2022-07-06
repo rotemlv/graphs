@@ -26,6 +26,7 @@ Flow networks:
 - Ford-Fulkerson (BFS and DFS versions)
   
 *Kruskal is built on top of the highly-efficient disjoint-set data-structure, implemented in the disjoint_set.py file.
+
 \*\*Dijkstra and Prim implementation are not using a fibonacci heap.
 The main.py file holds some examples for how to use the BaseGraph and WeightedGraph classes.
 The file network_graph.py holds some examples for using a flow network with the FlowNetwork class.
