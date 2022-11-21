@@ -17,6 +17,9 @@ class WeightedGraph(BaseGraph):
             for u, v in set(self.weights_dict.keys()):
                 self.weights_dict[v, u] = self.weights_dict[u, v]
 
+    def get_weights(self):
+        return self.weights_dict.copy()
+
     def add_edge(self, u: Hashable, v: Hashable, w=None) -> None:
         """Insert an edge to a graph. If one or both of the vertices do not exist,
         add them. Supports weighted edges. Edge form (directed or undirected) is
@@ -27,14 +30,14 @@ class WeightedGraph(BaseGraph):
             self.weights_dict[v, u] = w
 
     def remove_edge(self, u, v, bi_flag=True) -> None:
-        """Remove an edge from Graph. If edge does not exist, do nothin'"""
+        """Remove an edge from Graph. If edge does not exist, do nothin' """
         super().remove_edge(u, v, bi_flag)
         self.weights_dict.pop((u, v), None)
         if bi_flag and self._bi_directional:
             self.weights_dict.pop((v, u), None)
 
     def get_neighbors_weighted(self, u) -> iter:
-        """Returns a generator for a given vertex' neighbor vertices
+        """Returns a generator for a given vertex's neighbor vertices
         alongside the weight of the edge to it.
         If input vertex isn't in the graph, adds it."""
         for v in self.get_neighbors(u):
@@ -53,7 +56,7 @@ class WeightedGraph(BaseGraph):
             prev[v] = u
 
     def di_acyclic_shortest_path(self, source):
-        """Linear time algorithm for single-source shortest paths in
+        """Linear time algorithm for single-source-shortest-paths in
          a directed acyclic graph."""
         # necessary pre-requisites for using this here algo
         assert self._neighbors.get(source) is not None  # check source is in graph
@@ -67,7 +70,7 @@ class WeightedGraph(BaseGraph):
         # find source in top-sort
         while self.top_sort[i] != source:
             i += 1
-        # find shortest path from source to nodes ahead of it in top-sort
+        # find the shortest path from source to nodes ahead of it in top-sort
         # using relaxation (and meditation) over outgoing edges
         for u in self.top_sort[i:]:
             for v in self.get_neighbors(u):
@@ -107,7 +110,7 @@ class WeightedGraph(BaseGraph):
 
     def bellman_ford(self, source: Hashable) -> Tuple[dict, dict] or None:
         """Standard Bellman-Ford implementation.
-        This algorithm considers a bi-directional edge of negative weight as a negative circle,
+        This algorithm considers a bidirectional edge of negative weight as a negative circle,
         and it will return None in such cases."""
         if self._bi_directional and any(self.weights_dict[edge] < 0 for edge in self._edges):
             return None
@@ -180,7 +183,7 @@ class WeightedGraph(BaseGraph):
 
     def kruskal(self) -> set:
         """Returns a list of edges for the MST of a graph G per the Kruskal MST algorithm."""
-        from .disjoint_set import make_set, find, union
+        from disjoint_set import make_set, find, union
         assert self._bi_directional
         set_edges = set()
         # disjoint set prep

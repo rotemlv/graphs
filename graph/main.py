@@ -5,6 +5,10 @@ from graph.network_graph import FlowNetwork
 import networkx as nx
 import matplotlib.pyplot as plt
 
+from random import randint
+
+
+# import scipy
 
 class Graph:
     @staticmethod
@@ -41,10 +45,16 @@ def generate_graph_plot(edges, weights=None, directed=True, xlabel="graph", g_na
     else:
         g = nx.Graph(name=g_name)
     ed_ls = sorted(edges)
+
     weights = weights if weights else {edge: 1 for edge in edges}  # too tired
-    G = nx.DiGraph()
-    G.add_weighted_edges_from(((*edge, weights[edge]) for edge in ed_ls))
-    g = G
+
+    # G = nx.DiGraph()
+    # print(weights, [edge for edge in edges])
+    # for x in ((*edge, weights[edge]) for edge in ed_ls):
+    #     print(x)
+    # exit()
+    g.add_weighted_edges_from(((*edge, weights[edge]) for edge in ed_ls))
+    # g = g
     # if drowsy
     # nx.draw_kamada_kawai(g)
     # nx.draw(g,pos=nx.spring_layout(g))
@@ -59,6 +69,15 @@ def generate_graph_plot(edges, weights=None, directed=True, xlabel="graph", g_na
     # nx.draw(g,nx.spring_layout(g),with_labels=True)
     plt.xlabel(xlabel)
     plt.show()
+
+
+def generate_graph_plot_wrapper(g: BaseGraph or WeightedGraph):
+    if isinstance(g, WeightedGraph):
+        generate_graph_plot(edges=list(g.get_edges()), weights=g.get_weights(), directed=g.is_directed)
+    elif isinstance(g, BaseGraph):
+        generate_graph_plot(edges=list(g.get_edges()), directed=g.is_directed)
+    else:
+        raise AttributeError(f"Error plotting {g.__class__}")
 
 
 def graph_a():
@@ -100,25 +119,50 @@ def test_2():
     generate_graph_plot(edges=g._edges, weights=g.weights_dict)
 
 
-# one could even create an empty graph without passing anything
-g = Graph.create(bi_dir=True, weighted=True)
-g.add_edge(1, 2, 1)  # u, v, weight
-g.add_edge(2, 4, 2)
-g.add_edge(3, 4, 3)
-g.add_edge(1, 5, 1)
-g.add_edge(2, 3, 1)
-g.add_edge(1, 4, 4)
-g.add_edge(2, 5, 5)
-# print(g.weights_dict)
-# generate_graph_plot(g.edges, g.weights_dict)
-print(f'minimal spanning tree - {g.kruskal()=}, {g.prim()=}')
-t = Graph.create(bi_dir=True, weighted=True)
-# t.add_edge(1, 2, 1)  # u, v, weight
-# t.add_edge(2, 4, 2)
-# t.add_edge(3, 4, 3)
-# t.add_edge(1, 5, 1)
-# t.add_edge(2, 3, 1)
-# t.add_edge(1, 4, 4)
-# t.add_edge(2, 5, 4.99999999999999989)
-# print(g == t)
-# print(t.weights_dict, g.weights_dict)
+def main_test():
+    # one could even create an empty graph without passing anything
+    g = Graph.create(bi_dir=True, weighted=True)
+    g.add_edge(1, 2, 1)  # u, v, weight
+    g.add_edge(2, 4, 2)
+    g.add_edge(3, 4, 3)
+    g.add_edge(1, 5, 1)
+    g.add_edge(2, 3, 1)
+    g.add_edge(1, 4, 4)
+    g.add_edge(2, 5, 5)
+    # print(g.weights_dict)
+    # generate_graph_plot(g.edges, g.weights_dict)
+    print(f'minimal spanning tree - {g.kruskal()=}, {g.prim()=}')
+    t = Graph.create(bi_dir=True, weighted=True)
+    # t.add_edge(1, 2, 1)  # u, v, weight
+    # t.add_edge(2, 4, 2)
+    # t.add_edge(3, 4, 3)
+    # t.add_edge(1, 5, 1)
+    # t.add_edge(2, 3, 1)
+    # t.add_edge(1, 4, 4)
+    # t.add_edge(2, 5, 4.99999999999999989)
+    # print(g == t)
+    # print(t.weights_dict, g.weights_dict)
+
+def new_test():
+    vertices = [i for i in range(1, 20)]
+    edges = set((randint(1, 20), randint(1, 20)) for _ in range(30))
+    edges = {(u, v) for u, v in edges if u != v}
+    weights = {edge:randint(1,10) for edge in edges}
+    # print(edges)
+    g = Graph.create(vertices=vertices, weight_dict=weights, edges=edges, weighted=True, bi_dir=True)
+    # print(g)
+
+    for node in g.get_vertices():
+        p = g.shortest_path_from_to(1, node)
+        if p[0] is not None:
+            print(f"Path from {1} to {node}: {p[0]}, distance: {p[1]}")
+    generate_graph_plot_wrapper(g)
+    # print(f"Graph g type: {g.__class__}")
+    generate_graph_plot(edges=g.kruskal(), weights=g.get_weights(),directed=False,g_name="Minimal spanning tree")
+    # generate_graph_plot_wrapper(g)
+    # generate_graph_plot([e for e in g.get_edges()])
+    # print([e for e in g.get_edges()])
+
+
+if __name__ == '__main__':
+    new_test()

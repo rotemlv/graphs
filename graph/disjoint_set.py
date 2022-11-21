@@ -38,3 +38,11 @@ def union(x, y, parent: dict, rank: dict):
     parent[y] = x  # set y's parent tree to be x
     if rank[x] == rank[y]:
         rank[x] += 1
+
+
+if __name__ == "__main__":
+    st = {1,2,3,4,5}
+    parents, rank = dict(), dict()
+    [make_set(x, parents, rank) for x in st]
+    union(1,2,parents,rank)
+    print(parents)

@@ -93,6 +93,11 @@ class BaseGraph:
         """Number of edges in a graph"""
         return len(self._edges)
 
+    @property
+    def is_directed(self) -> bool:
+        """Number of edges in a graph"""
+        return not self._bi_directional
+
     def get_vertices(self) -> iter:
         yield from self._neighbors.keys()
 
