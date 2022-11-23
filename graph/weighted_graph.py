@@ -146,8 +146,9 @@ class WeightedGraph(BaseGraph):
                     return None
         return dist, prev
 
-    def shortest_path_from_to(self, _from, _to) -> tuple:
-        """Returns a tuple: a list (the path between the two vertices) and a distance (float or int)"""
+    def shortest_path_from_to(self, _from: Hashable, _to: Hashable) -> Tuple[list or None, int or float]:
+        """Returns a tuple: a list (the path between the two vertices) and a distance (float or int).
+        If path does not exist, return (None, float('inf'))."""
         if self.is_dag:  # if a negative edges but non-negative circle exists we go bellman
             dist, prev = self.di_acyclic_shortest_path(_from)
         else:

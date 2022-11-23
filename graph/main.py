@@ -1,3 +1,4 @@
+import copy
 from collections.abc import Sized
 from graph.base_graph import BaseGraph, Iterable
 from graph.weighted_graph import WeightedGraph
@@ -143,11 +144,12 @@ def main_test():
     # print(g == t)
     # print(t.weights_dict, g.weights_dict)
 
+
 def new_test():
     vertices = [i for i in range(1, 20)]
     edges = set((randint(1, 20), randint(1, 20)) for _ in range(30))
     edges = {(u, v) for u, v in edges if u != v}
-    weights = {edge:randint(1,10) for edge in edges}
+    weights = {edge: randint(1, 10) for edge in edges}
     # print(edges)
     g = Graph.create(vertices=vertices, weight_dict=weights, edges=edges, weighted=True, bi_dir=True)
     # print(g)
@@ -158,11 +160,77 @@ def new_test():
             print(f"Path from {1} to {node}: {p[0]}, distance: {p[1]}")
     generate_graph_plot_wrapper(g)
     # print(f"Graph g type: {g.__class__}")
-    generate_graph_plot(edges=g.kruskal(), weights=g.get_weights(),directed=False,g_name="Minimal spanning tree")
+    generate_graph_plot(edges=g.kruskal(), weights=g.get_weights(),
+                        directed=False, g_name="Minimal spanning tree")
     # generate_graph_plot_wrapper(g)
     # generate_graph_plot([e for e in g.get_edges()])
     # print([e for e in g.get_edges()])
 
 
+def plot_graph_with_shortest_path(graph: WeightedGraph or BaseGraph, path: tuple):
+    """Show a graph with the path on it in a different color
+    * works better without weights for now"""
+    graph_copy = copy.copy(graph)
+    if isinstance(graph, BaseGraph):
+        graph_copy = WeightedGraph(graph.get_vertices(), graph.get_edges(),
+                                   not graph.is_directed, {(u, v): 1 for u, v in graph.get_edges()})
+    # Generate a Networkx object
+    if graph_copy.is_directed:
+        g = nx.DiGraph(name="test")
+    else:
+        g = nx.Graph(name="test")
+    ed_ls = sorted(graph_copy.get_edges())
+    weights = graph_copy.get_weights()
+
+    nodes_on_path = set(path)
+    nodes_not_on_path = set(graph_copy.get_vertices()) - nodes_on_path
+
+    edges_for_path = set([(path[i], path[i + 1]) for i in range(len(path) - 1)])
+    if not graph_copy.is_directed:
+        edges_for_path = edges_for_path.union({(v, u) for u, v in edges_for_path})
+
+    edges_not_on_path = set(graph_copy.get_edges()) - edges_for_path
+
+    g.add_weighted_edges_from(((*edge, weights[edge]) for edge in ed_ls))
+
+    # draw the thing
+    # pos = nx.kamada_kawai_layout(g)
+    pos = nx.spring_layout(g, seed=3113794652)  # positions for all nodes
+
+    # nodes
+    options = {"edgecolors": "tab:gray", "node_size": 800, "alpha": 0.9}
+    nx.draw_networkx_nodes(g, pos, nodelist=list(nodes_on_path), node_color="tab:red", **options)
+    nx.draw_networkx_nodes(g, pos, nodelist=list(nodes_not_on_path), node_color="tab:blue", **options)
+
+    # edges
+    nx.draw_networkx_edges(g, pos, width=1.0, alpha=0.5)
+    nx.draw_networkx_edges(
+        g,
+        pos,
+        edgelist=list(edges_for_path),
+        width=8,
+        alpha=0.5,
+        edge_color="tab:red",
+    )
+    nx.draw_networkx_edges(
+        g,
+        pos,
+        edgelist=list(edges_not_on_path),
+        width=8,
+        alpha=0.5,
+        edge_color="tab:blue",
+    )
+    nx.draw_networkx_labels(g, pos, labels=None, font_size=22, font_color="whitesmoke")
+
+    # plt stuff
+    plt.tight_layout()
+    plt.axis("off")
+    plt.show()
+
+
 if __name__ == '__main__':
-    new_test()
+    # new_test()
+    # g = BaseGraph([], [(1, 2), (2, 3), (1, 3), (1, 4), (4, 5)], bi_directional=True)
+    g = WeightedGraph([], [(1, 2), (2, 3), (1, 3), (1, 4), (4, 5)], bi_directional=True,
+                      weights_dict={(1, 2): 3, (2, 3): 2, (1, 3): 4, (1, 4): 0, (4, 5): 5})
+    plot_graph_with_shortest_path(g, g.shortest_path_from_to(1, 5)[0])

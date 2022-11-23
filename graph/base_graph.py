@@ -176,8 +176,9 @@ class BaseGraph:
         path.reverse()
         return path if path else None
 
-    def shortest_path_from_to(self, _from, _to) -> Tuple[list or None, int or float]:
-        """Returns the shortest path between two vertices, along the distance."""
+    def shortest_path_from_to(self, _from: Hashable, _to: Hashable) -> Tuple[list or None, int or float]:
+        """Returns a tuple: a list (the path between the two vertices) and a distance (float or int).
+        If path does not exist, return (None, float('inf'))."""
         dist, prev = self.bfs(_from)
         path = [_to]
         if prev[_to] is None:
