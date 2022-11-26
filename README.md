@@ -36,7 +36,10 @@ main.py:
 Besidees the simple examples, main.py contains two plotting functions for graphs (using the networkx module), 
 which allow us to visualize graphs (both weighted and un-weighted).
 Graph class (defined in main.py) allows creating a generic graph with the relevant data.
-The file network_graph.py holds some examples for using a flow network with the FlowNetwork class.
+
+network_graph.py:
+
+Holds some examples for using a flow network with the FlowNetwork class.
 
 External modules required for plotting: networkx, matplotlib
 
