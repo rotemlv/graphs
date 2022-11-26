@@ -29,8 +29,12 @@ Flow networks:
 
 \*\*Dijkstra and Prim implementation are not using a fibonacci heap.
 
-The main.py file holds some examples for how to use the BaseGraph and WeightedGraph classes.
+-The main.py file holds some examples for how to use the BaseGraph and WeightedGraph classes.-
+main.py contains two plotting functions for graphs (using the networkx module), which allow us to visualize graphs (both weighted and un-weighted).
+Graph class (defined in main.py) allows creating a generic graph with the relevant data.
 The file network_graph.py holds some examples for using a flow network with the FlowNetwork class.
 
-
 External modules required for plotting: networkx, matplotlib
+
+TODO:
+improve documentation for main.py
