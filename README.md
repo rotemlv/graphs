@@ -1,7 +1,7 @@
 # graphs
 Implementation of graphs and flow networks (a somewhat OO approach):
 
-Basic graph algorithms:
+## Basic graph algorithms:
 - DFS
 - DFS forests
 - BFS (all-reachable-nodes traversal from a given vertex)
@@ -9,33 +9,27 @@ Basic graph algorithms:
 - Topological-sort
 - Strongly-connected-components (DFS based)
 
-Weighted graph algorithms:
+## Weighted graph algorithms:
 
-  Shortest path:
+  ### Shortest path:
   - Dijkstra (**)
   - Bellman-Ford:
     - Standard version for directed graphs with negative weights
     - Special version for un-directed graphs (treats negative edges as directed when encountered).
   - SSSP-DAG (Top-sort based linear time algorithm)
   
-  MST:
+  ### MST:
   - Kruskal (*)
   - Prim (**)
   
-Flow networks:
+## Flow networks:
 - Ford-Fulkerson (BFS and DFS versions)
-  
-*Kruskal is built on top of the highly-efficient disjoint-set data-structure, implemented in the disjoint_set.py file.
 
-\*\*Dijkstra and Prim implementation are not using a fibonacci heap.
+### main.py:
 
-~~The main.py file holds some examples for how to use the BaseGraph and WeightedGraph classes.~~
-
-main.py:
-
-Besidees the simple examples, main.py contains two plotting functions for graphs (using the networkx module), 
-which allow us to visualize graphs (both weighted and un-weighted).
-Graph class (defined in main.py) allows creating a generic graph with the relevant data.
+Besides some simple examples, main.py contains two plotting functions for graphs (using the networkx module), 
+allowing visualization for the different graph types (both weighted and un-weighted).
+Graph class (defined in main.py) allows creating a generic graph with any relevant data.
 
 network_graph.py:
 
@@ -43,5 +37,9 @@ Holds some examples for using a flow network with the FlowNetwork class.
 
 External modules required for plotting: networkx, matplotlib
 
-TODO:
+### TODO:
 improve documentation for main.py
+
+<sub>\* Kruskal is built on top of the highly-efficient disjoint-set data-structure, implemented in the disjoint_set.py file.</sub>
+
+<sub>\** Dijkstra and Prim implementation are not using a fibonacci heap.</sub>
