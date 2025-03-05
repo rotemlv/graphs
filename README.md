@@ -21,7 +21,11 @@ Implementation of graphs and flow networks (a somewhat OO approach):
   ### MST:
   - Kruskal (*)
   - Prim (**)
-  
+
+<sub>\* Kruskal is built on top of the highly-efficient disjoint-set data-structure, implemented in the disjoint_set.py file.</sub>
+
+<sub>\** Dijkstra and Prim implementation are not using a fibonacci heap.</sub>
+
 ## Flow networks:
 - Ford-Fulkerson (BFS and DFS versions)
 
@@ -39,7 +43,3 @@ External modules required for plotting: networkx, matplotlib
 
 ### TODO:
 improve documentation for main.py
-
-<sub>\* Kruskal is built on top of the highly-efficient disjoint-set data-structure, implemented in the disjoint_set.py file.</sub>
-
-<sub>\** Dijkstra and Prim implementation are not using a fibonacci heap.</sub>
